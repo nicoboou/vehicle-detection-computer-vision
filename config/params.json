@@ -1,0 +1,52 @@
+{
+  "color_space": "RGB",
+  "spatial_features_settings": {
+    "extract_spatial_features": false,
+    "spatial_size": [32, 32]
+  },
+  "color_features_settings": {
+    "extract_color_features": false,
+    "color_histogram_range": [0, 256],
+    "color_histogram_bins": 64
+  },
+  "hog_features_settings": {
+    "extract_hog_features": true,
+    "hog_channel_to_extract": "all",
+    "hog_orientations": 9,
+    "pixels_per_cell": [7, 7],
+    "cells_per_block": [2, 2]
+  },
+  "sliding_window_settings": {
+    "window_search_areas": [
+      [180, 420],
+      [180, 420],
+      [180, 380],
+      [180, 300]
+    ],
+    "window_sizes": [
+      [240, 240],
+      [120, 120],
+      [64, 64],
+      [32, 32]
+    ],
+    "window_overlap": 0.75
+  },
+  "classifier": "LinearSVC",
+  "predict_proba": true,
+  "test_size": 0.25,
+  "heatmap": {
+    "heat_queue_length": 1,
+    "heatmap_threshold": 10
+  },
+  "paths": {
+    "path_to_csv": "./data/initial/train.csv",
+    "path_to_frames": "./data/initial/raw/frames/",
+    "path_to_videos": "./data/initial/raw/videos/",
+    "path_to_models": "./models/"
+  },
+  "file_names": {
+    "datasets": "train_test_datasets",
+    "vehicle_features": "vehicle_features",
+    "non_vehicle_features": "non_vehicle_features"
+  }
+}

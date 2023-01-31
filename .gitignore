@@ -1,0 +1,13 @@
+# Dirs
+__pycache__/
+.vscode/
+data/
+tests/
+models/
+
+# Files type
+__init__.py
+*.csv
+*.mp4
+*.pkl
+**/*.pkl
