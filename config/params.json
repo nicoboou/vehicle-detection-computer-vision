@@ -19,12 +19,10 @@
   "sliding_window_settings": {
     "window_search_areas": [
       [180, 420],
-      [180, 420],
-      [180, 380],
-      [180, 300]
+      [220, 380],
+      [220, 300]
     ],
     "window_sizes": [
-      [240, 240],
       [120, 120],
       [64, 64],
       [32, 32]
@@ -36,7 +34,7 @@
   "test_size": 0.25,
   "heatmap": {
     "heat_queue_length": 1,
-    "heatmap_threshold": 10
+    "heatmap_threshold": 6
   },
   "paths": {
     "path_to_csv": "./data/initial/train.csv",

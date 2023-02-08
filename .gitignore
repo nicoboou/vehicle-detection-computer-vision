@@ -4,6 +4,7 @@ __pycache__/
 data/
 tests/
 models/
+archive/
 
 # Files type
 __init__.py

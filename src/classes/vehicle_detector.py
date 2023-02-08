@@ -348,7 +348,7 @@ class VehicleDetector:
         return heatmap
 
     @staticmethod
-    def draw_labeled_bboxes(img: np.array, labels, return_details=False) -> np.array:
+    def draw_labeled_bboxes(img: np.array, labels) -> np.array:
         """
         Description:
         ------------
@@ -391,11 +391,7 @@ class VehicleDetector:
 
                 final_bboxs.append(returned_bbox)
 
-        if return_details:
-            return img, final_bboxs
-
-        else:
-            return img
+        return img, final_bboxs
 
     def analyse_frame(
         self,
@@ -408,7 +404,6 @@ class VehicleDetector:
         proba,
         heat_queue,
         threshold=5,
-        return_details=False,
     ):
         """
         Description:
@@ -442,7 +437,7 @@ class VehicleDetector:
             scaler=scaler,
             proba=proba,
         )
-        print(f"{round(time.time() - start, 2)} seconds to detect vehicles")
+        time_to_detect = round(time.time() - start, 2)
 
         window_img = draw_bounding_boxes(img=frame, bboxs=hot_windows, color=(0, 0, 1))
 
@@ -470,19 +465,18 @@ class VehicleDetector:
 
         total_heat = np.sum(heat_queue, axis=0).astype(np.uint8)
         # Apply threshold to help remove false positives
-        total_heat = self.apply_threshold(total_heat, threshold=threshold)
+        total_heat = self.apply_threshold(heatmap=total_heat, threshold=threshold)
         heatmap = np.clip(total_heat, 0, 255)
         # Find final boxes from heatmap using label function
         labels = label(heatmap)
 
-        detected_img, final_bboxs = self.draw_labeled_bboxes(
-            np.copy(frame), labels, return_details=return_details
+        detected_img, bounding_boxes = self.draw_labeled_bboxes(np.copy(frame), labels)
+
+        return (
+            allwindows_img,
+            window_img,
+            heatmap,
+            detected_img,
+            bounding_boxes,
+            time_to_detect,
         )
-
-        if return_details:
-            return allwindows_img, window_img, heatmap, detected_img, final_bboxs
-
-        else:
-            return self.draw_labeled_bboxes(
-                np.copy(frame), labels, return_details=return_details
-            )
