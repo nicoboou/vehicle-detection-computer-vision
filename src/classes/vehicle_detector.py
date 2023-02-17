@@ -105,10 +105,6 @@ class VehicleDetector:
 
         image_features = []
 
-        # Print max and min value of image array
-        # print(f"Max value: {np.max(image)}")
-        # print(f"Min value: {np.min(image)}")
-
         # Convert color
         feature_img = (
             convert_color(img, conversion=self.color_space)
@@ -343,7 +339,14 @@ class VehicleDetector:
         heatmap (np.array): thresholded heatmap
         """
 
-        heatmap[heatmap <= threshold] = 0
+        if np.max(heatmap) >= 6:
+            thresh = 6
+        else:
+            thresh = np.max(heatmap) * threshold
+
+        # thresh = np.max(heatmap) * threshold
+
+        heatmap[heatmap <= thresh] = 0
 
         return heatmap
 
@@ -458,15 +461,19 @@ class VehicleDetector:
 
         # Heatmap
         heat = np.zeros_like(frame[:, :, 0]).astype(float)
+
         # Add heat to each box in box list
         heat = self.add_heat(heat, hot_windows)
+
         # Add heat to circular buffer and find total
         heat_queue.append(heat)
 
         total_heat = np.sum(heat_queue, axis=0).astype(np.uint8)
+
         # Apply threshold to help remove false positives
         total_heat = self.apply_threshold(heatmap=total_heat, threshold=threshold)
         heatmap = np.clip(total_heat, 0, 255)
+
         # Find final boxes from heatmap using label function
         labels = label(heatmap)
 

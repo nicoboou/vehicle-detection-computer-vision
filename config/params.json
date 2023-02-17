@@ -1,13 +1,13 @@
 {
   "color_space": "RGB",
   "spatial_features_settings": {
-    "extract_spatial_features": false,
+    "extract_spatial_features": true,
     "spatial_size": [32, 32]
   },
   "color_features_settings": {
-    "extract_color_features": false,
+    "extract_color_features": true,
     "color_histogram_range": [0, 256],
-    "color_histogram_bins": 64
+    "color_histogram_bins": 32
   },
   "hog_features_settings": {
     "extract_hog_features": true,
@@ -18,12 +18,14 @@
   },
   "sliding_window_settings": {
     "window_search_areas": [
+      [200, 400],
       [180, 420],
       [220, 380],
       [220, 300]
     ],
     "window_sizes": [
-      [120, 120],
+      [256, 256],
+      [128, 128],
       [64, 64],
       [32, 32]
     ],
@@ -34,7 +36,7 @@
   "test_size": 0.25,
   "heatmap": {
     "heat_queue_length": 1,
-    "heatmap_threshold": 6
+    "heatmap_threshold": 0.45
   },
   "paths": {
     "path_to_csv": "./data/initial/train.csv",

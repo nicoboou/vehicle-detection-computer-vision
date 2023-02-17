@@ -9,7 +9,7 @@ def bounding_boxes_to_mask(bounding_boxes, H, W):
 
     mask = np.zeros((H, W))
     for x, y, dx, dy in bounding_boxes:
-        mask[y : y + dy, x : x + dx] = 1
+        mask[int(y) : int(y + dy), int(x) : int(x + dx)] = 1
 
     return mask
 

@@ -104,8 +104,17 @@ def extract_vehicle_images_from_bboxs(
         # Read the image frame
         frame = read_frame(csv_df, i)
 
+        # Convert from RGB to BGR because we read using skimage, and OpenCV can only read BGR
+        frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+
         # Get the bounding boxes for the current frame
         bboxs = csv_df[csv_df.index == i].bounding_boxes.values[0]
+
+        # Get frame_id
+        frame_id = csv_df[csv_df.index == i].frame_id.values[0]
+
+        # Split and get last element
+        frame_id = frame_id.split("/")[-1].split(".")[0]
 
         # Check if value of bboxs is empty list
         if not isinstance(bboxs, list) and math.isnan(bboxs):
@@ -113,7 +122,7 @@ def extract_vehicle_images_from_bboxs(
 
         try:
             # Loop through the bounding boxes
-            for x, y, dx, dy in bboxs:
+            for j, (x, y, dx, dy) in enumerate(bboxs):
 
                 # Check if the bounding box is bigger than threshold
                 if not (dx > 20 and dy > 20):
@@ -126,7 +135,7 @@ def extract_vehicle_images_from_bboxs(
                 crop_img = cv2.resize(crop_img, resolution)
 
                 # Save the image
-                cv2.imwrite(f"./data/initial/vehicles/{i}.png", crop_img)
+                cv2.imwrite(f"./data/initial/vehicles/{frame_id}_{j}.png", crop_img)
                 counter += 1
 
         except Exception as exc:
