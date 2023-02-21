@@ -19,6 +19,18 @@ This project is about tracking vehicles in a video using computer vision techniq
 4. Apply Support Vector Machine (SVM) on the vehicle and non-vehicle images combined feature vectors to identify the cars in the images in the dataset
 5. Draw Rectangle and Heatmap on the Identified Image
 
+### Additional Techniques (to be explored)
+
+- MOG2 Background Subtraction
+- external datasets usage
+- extraction of _vehicles_images_ from original dataset (using given bounding boxes)
+- use `spatial_bin` and `color_hist` as additional features
+- investigate the use of `canny_edge` application before `hog` extraction
+- build an `adaptative_threshold` for the heatmap
+- use `cv2.findContours` to find the bounding boxes of the cars
+- test different `window_sizes` for our windows search
+- build a Dice score to test on original dataset
+
 # References
 
 ### Space-time local features
