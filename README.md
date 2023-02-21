@@ -4,16 +4,14 @@ This project is about tracking vehicles in a video using computer vision techniq
 
 # Main Problematics to Tackle
 
-- Scale variation: cars variate a lot in scale in the dataset
-- Occlusion: cars are not always visible
-- Deformation: cars are not always in the same orientation
-- Moving background: camera is on board of a car
+- **Scale variation**: cars variate a lot in scale in the dataset
+- **Occlusion**: cars are not always visible
+- **Deformation**: cars are not always in the same orientation
+- **Moving background**: camera is on board of a car
 
 # Techniques to Explore
 
 ### Vehicle Detection and Tracking using Computer Vision and Support Vector Machine (SVM)
-
-https://www.linkedin.com/pulse/vehicle-detection-tracking-using-computer-vision-support-paliwal/
 
 1. Spacial Bin for Feature Extraction
 2. Color Histogram for Feature Extraction
