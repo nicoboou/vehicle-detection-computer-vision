@@ -38,6 +38,10 @@ def run_length_encoding(mask):
 
     # find mask non-zeros in flattened representation
     non_zeros = np.nonzero(mask.flatten())[0]
+
+    if len(non_zeros) == 0:
+        return ""
+
     padded = np.pad(non_zeros, pad_width=1, mode="edge")
 
     # find start and end points of non-zeros runs
