@@ -1,7 +1,10 @@
+# Standard library imports
+import glob
+
+# Third party imports
 import pandas as pd
 import numpy as np
 from skimage.io import imread
-import glob
 
 
 def load_train_csv(path_to_csv, path_to_frames):

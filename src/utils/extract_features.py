@@ -1,6 +1,9 @@
+# Standard library imports
+import pickle
+
+# Third party imports
 import numpy as np
 from tqdm import tqdm
-import pickle
 
 # Local imports
 from src.utils.preprocessing import convert_color

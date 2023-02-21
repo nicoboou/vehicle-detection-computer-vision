@@ -1,6 +1,8 @@
+# Standard library imports
 from abc import ABC, abstractmethod
-from typing import List, Union, Tuple
+from typing import List, Union
 
+# Third party imports
 import numpy as np
 
 
@@ -11,14 +13,16 @@ class BaseFeaturesExtractor(ABC):
     """
 
     @abstractmethod
-    def extract(self, path: str, visualize: bool = False) -> Union[List, np.ndarray]:
+    def extract(
+        self, img: np.array, visualize: bool = False
+    ) -> Union[List, np.ndarray]:
         """
         Method to extract the features from an image by giving a path.
 
         Parameters
         ----------
-        path : str
-            Path of the image
+        img :  np.array
+            Input image
         visualize : bool, optional
             Option to visualize the predictions, by default False
 

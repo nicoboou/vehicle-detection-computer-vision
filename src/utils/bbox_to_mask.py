@@ -2,9 +2,18 @@ import numpy as np
 
 
 def bounding_boxes_to_mask(bounding_boxes, H, W):
-
     """
-    Converts set of bounding boxes to a binary mask
+    Converts set of bounding boxes to a binary mask.
+
+    Parameters
+    ----------
+    bounding_boxes (np.ndarray): Array of bounding boxes
+    H (int): Height of the mask
+    W (int): Width of the mask
+
+    Returns
+    -------
+    np.ndarray: Binary mask
     """
 
     mask = np.zeros((H, W))
@@ -15,9 +24,16 @@ def bounding_boxes_to_mask(bounding_boxes, H, W):
 
 
 def run_length_encoding(mask):
-
     """
-    Produces run length encoding for a given binary mask
+    Produces run length encoding for a given binary mask.
+
+    Parameters
+    ----------
+    mask (np.ndarray): Binary mask
+
+    Returns
+    -------
+    str: Run length encoding
     """
 
     # find mask non-zeros in flattened representation

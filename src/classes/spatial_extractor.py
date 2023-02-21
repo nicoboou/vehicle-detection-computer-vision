@@ -1,9 +1,12 @@
+# Standard library imports
+from typing import Union, List
+
+# Third party imports
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
-import seaborn as sns
-from typing import Union, List
 
+# Local application imports
 from src.classes.base_features_extractor import BaseFeaturesExtractor
 
 
@@ -39,7 +42,6 @@ class SpatialFeaturesExtractor(BaseFeaturesExtractor):
         if visualize:
             spatial_bin_plot = self._plot_histogram(
                 histogram=features,
-                ylabels=["R", "G", "B"],
                 title="Spatial Binned Color Histogram",
             )
 
@@ -49,7 +51,7 @@ class SpatialFeaturesExtractor(BaseFeaturesExtractor):
         return features, spatial_bin_plot
 
     def _plot_histogram(
-        self, histogram: List[np.ndarray], ylabels: List[str], title: str = None
+        self, histogram: List[np.ndarray], title: str = None
     ) -> plt.figure:
         """
         Plots a Spatial bin histogram

@@ -1,8 +1,10 @@
+# Standard library imports
 from typing import List
-
-import numpy as np
 import pickle
 import time
+
+# Third party imports
+import numpy as np
 
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split

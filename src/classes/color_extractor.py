@@ -1,8 +1,11 @@
-import numpy as np
-import matplotlib.pyplot as plt
-import cv2
+# Standard library imports
 from typing import Union, List
 
+# Third party imports
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Local application imports
 from src.classes.base_features_extractor import BaseFeaturesExtractor
 
 
@@ -53,9 +56,7 @@ class ColorFeaturesExtractor(BaseFeaturesExtractor):
                     histogram_channel_1,
                     histogram_channel_2,
                     histogram_channel_3,
-                ],
-                ylabels=["R", "G", "B"],
-                title="Color Histogram",
+                ]
             )
 
         else:
@@ -63,9 +64,7 @@ class ColorFeaturesExtractor(BaseFeaturesExtractor):
 
         return features, color_bin_plot
 
-    def _plot_histogram(
-        self, histograms: List[np.ndarray], ylabels: List[str], title: str = None
-    ) -> plt.figure:
+    def _plot_histogram(self, histograms: List[np.ndarray]) -> plt.figure:
         """
         Plots a histogram
 

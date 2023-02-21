@@ -1,21 +1,48 @@
+# Standard library imports
+import math
+import time
+
+# Third party imports
 import cv2
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
-import matplotlib.patches as patches
+from matplotlib import patches
 from skimage.io import imread
 from tqdm import tqdm
-import math
-import time
 
 
 def read_frame(df_annotation, frame):
-    """Read frames and create integer frame_id"""
+    """
+    Read frames and create integer frame_id
+
+    Parameters
+    ----------
+    df_annotation (pd.DataFrame): Dataframe containing annotations
+    frame (int): Frame number
+
+    Returns
+    -------
+    np.ndarray: Image of the frame
+    """
+
     file_path = df_annotation[df_annotation.index == frame]["frame_id"].values[0]
     return imread(file_path)
 
 
 def annotations_for_frame(df_annotation, frame):
+    """
+    Returns annotations for a given frame.
+
+    Parameters
+    ----------
+    df_annotation (pd.DataFrame): Dataframe containing annotations
+    frame (int): Frame number
+
+    Returns
+    -------
+    list: List of annotations
+    """
     assert frame in df_annotation.index
     bbs = df_annotation[df_annotation.index == frame].bounding_boxes.values[0]
 
@@ -27,12 +54,24 @@ def annotations_for_frame(df_annotation, frame):
 
 
 def show_annotation(df_annotation, frame):
+    """
+    Draws annotations for a given frame.
+
+    Parameters
+    ----------
+    df_annotation (pd.DataFrame): Dataframe containing annotations
+    frame (int): Frame number
+
+    Returns
+    -------
+    None
+    """
     assert frame in df_annotation.index
     img = read_frame(df_annotation, frame)
     # bbs = annotations_for_frame(df_annotation, frame)
     bbs = df_annotation[df_annotation.index == frame].bounding_boxes.values[0]
 
-    fig, ax = plt.subplots(figsize=(10, 8))
+    _, ax = plt.subplots(figsize=(10, 8))
 
     for x, y, dx, dy in bbs:
 
@@ -46,6 +85,15 @@ def show_annotation(df_annotation, frame):
 def draw_annotation(df_annotation, frame):
     """
     Draws annotations for a given frame.
+
+    Parameters
+    ----------
+    df_annotation (pd.DataFrame): Dataframe containing annotations
+    frame (int): Frame number
+
+    Returns
+    -------
+    None
     """
     img = read_frame(df_annotation, frame)
     bboxs = df_annotation[df_annotation.index == frame].bounding_boxes.values[0]
@@ -120,27 +168,22 @@ def extract_vehicle_images_from_bboxs(
         if not isinstance(bboxs, list) and math.isnan(bboxs):
             continue
 
-        try:
-            # Loop through the bounding boxes
-            for j, (x, y, dx, dy) in enumerate(bboxs):
+        # Loop through the bounding boxes
+        for j, (x, y, dx, dy) in enumerate(bboxs):
 
-                # Check if the bounding box is bigger than threshold
-                if not (dx > 20 and dy > 20):
-                    continue
+            # Check if the bounding box is bigger than threshold
+            if not (dx > 20 and dy > 20):
+                continue
 
-                # Crop the image
-                crop_img = frame[int(y) : int(y + dy), int(x) : int(x + dx)]
+            # Crop the image
+            crop_img = frame[int(y) : int(y + dy), int(x) : int(x + dx)]
 
-                # Resize the image
-                crop_img = cv2.resize(crop_img, resolution)
+            # Resize the image
+            crop_img = cv2.resize(crop_img, resolution)
 
-                # Save the image
-                cv2.imwrite(f"./data/initial/vehicles/{frame_id}_{j}.png", crop_img)
-                counter += 1
-
-        except Exception as exc:
-            print(bboxs, type(bboxs))
-            print(exc)
+            # Save the image
+            cv2.imwrite(f"./data/initial/vehicles/{frame_id}_{j}.png", crop_img)
+            counter += 1
 
     end = time.time()
     print(f"Number of images extracted: {counter}")

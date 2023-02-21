@@ -1,12 +1,13 @@
-from typing import List, Union, Tuple
-
+# Standard library imports
 import time
+
 import numpy as np
-import matplotlib.pyplot as plt
 import cv2
 
 from scipy.ndimage import label
 
+
+# Local application imports
 from src.utils.preprocessing import convert_color
 
 from src.classes.spatial_extractor import SpatialFeaturesExtractor
