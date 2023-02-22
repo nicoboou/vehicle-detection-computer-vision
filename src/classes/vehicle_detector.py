@@ -422,7 +422,12 @@ class VehicleDetector:
 
         Returns:
         --------
-        frame (np.array): frame with bounding boxes
+        allwindows_img (np.array): image with all windows
+        window_img (np.array): image with windows where cars were detected
+        heatmap (np.array): heatmap
+        detected_img (np.array): image with bounding boxes
+        bounding_boxes (list): list of bounding boxes
+        time_to_detect (float): time to detect cars
         """
 
         frame = np.copy(cv2.imread(frame))
@@ -443,7 +448,9 @@ class VehicleDetector:
         )
         time_to_detect = round(time.time() - start, 2)
 
-        window_img = draw_bounding_boxes(img=frame, bboxs=hot_windows, color=(0, 0, 1))
+        detected_windows_img = draw_bounding_boxes(
+            img=frame, bboxs=hot_windows, color=(0, 0, 1)
+        )
 
         allwindows_img = np.copy(frame)
 
@@ -482,7 +489,7 @@ class VehicleDetector:
 
         return (
             allwindows_img,
-            window_img,
+            detected_windows_img,
             heatmap,
             detected_img,
             bounding_boxes,
