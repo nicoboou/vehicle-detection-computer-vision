@@ -19,6 +19,7 @@ class DetectedObject:
     frame_nb (int): the frame number in which the object was detected
     centroid (tuple): the centroid of the bounding box
     similar_objects (list): the list of similar objects detected in the previous frames
+    min_centroids_dist (int): minimum distance between two centroids to consider an object to be the same
 
     Methods
     -------
@@ -27,10 +28,11 @@ class DetectedObject:
     smoothe_bounding_box(same_object): smoothes the bounding boxes between the current object and the same one from another frame
     """
 
-    def __init__(self, bounding_box, img_patch, frame_nb):
+    def __init__(self, bounding_box, img_patch, frame_nb, min_centroids_dist):
         self.bounding_box = bounding_box
         self.img_patch = img_patch
         self.frame_nb = frame_nb
+        self.min_centroids_dist = min_centroids_dist
 
         self.centroid = (
             int((bounding_box[0] + (bounding_box[0] + bounding_box[2])) / 2),
@@ -55,7 +57,7 @@ class DetectedObject:
             detected_object.centroid[1] - self.centroid[1],
         )
 
-        if dist <= 60.0:
+        if dist <= self.min_centroids_dist:
             return True
 
         return False
@@ -82,6 +84,9 @@ class DetectedObject:
         max_width = max(current_width, obj_width)
         max_height = max(current_height, obj_height)
 
+        # mean_width = (current_width + obj_width) / 2
+        # mean_height = (current_height + obj_height) / 2
+
         half_width = int(max_width / 2)
         half_height = int(max_height / 2)
 
@@ -89,8 +94,8 @@ class DetectedObject:
             (
                 self.centroid[0] - half_width,
                 self.centroid[1] - half_height,
-                self.centroid[0] + half_width,
-                self.centroid[1] + half_height,
+                max_width,
+                max_height,
             )
         )
 
