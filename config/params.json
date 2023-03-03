@@ -1,11 +1,11 @@
 {
   "color_space": "RGB",
   "spatial_features_settings": {
-    "extract_spatial_features": true,
+    "extract_spatial_features": false,
     "spatial_size": [32, 32]
   },
   "color_features_settings": {
-    "extract_color_features": true,
+    "extract_color_features": false,
     "color_histogram_range": [0, 256],
     "color_histogram_bins": 32
   },
@@ -31,7 +31,7 @@
     ],
     "window_overlap": 0.75
   },
-  "classifier": "LinearSVC",
+  "classifier": "RandomForestClassifier",
   "predict_proba": true,
   "test_size": 0.25,
   "heatmap": {
