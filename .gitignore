@@ -1,7 +1,6 @@
 # Dirs
 __pycache__/
 .vscode/
-data/
 tests/
 models/
 archive/
