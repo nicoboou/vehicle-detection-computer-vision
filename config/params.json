@@ -1,5 +1,5 @@
 {
-  "color_space": "RGB",
+  "color_space": "RGB2YCrCb",
   "spatial_features_settings": {
     "extract_spatial_features": false,
     "spatial_size": [32, 32]
@@ -36,7 +36,7 @@
   "test_size": 0.25,
   "heatmap": {
     "heat_queue_length": 1,
-    "heatmap_threshold": 0.45
+    "heatmap_threshold": 0.4
   },
   "paths": {
     "path_to_csv": "./data/initial/train.csv",

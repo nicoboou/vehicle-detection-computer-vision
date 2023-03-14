@@ -81,7 +81,7 @@ class FrameMemory:
                 x_offset=20,
                 y_offset=10,
             )
-            return frame_with_overlays
+            return frame_with_overlays, bounding_boxes
 
         # ====================================================================================================================== #
         # ========================================= CASE 2: frame_sampling_rate =! 0 ============================================ #
@@ -194,16 +194,6 @@ class FrameMemory:
 
                 bounding_boxes = []
                 for ro in self.current_detected_objects:
-                    print(
-                        np.asarray(
-                            [
-                                ro.bounding_box[0],
-                                ro.bounding_box[1],
-                                ro.bounding_box[2],
-                                ro.bounding_box[3],
-                            ]
-                        )
-                    )
                     bounding_boxes.append(
                         np.asarray(
                             [
@@ -228,4 +218,4 @@ class FrameMemory:
                 y_offset=10,
             )
 
-            return frame_with_overlays
+            return frame_with_overlays, bounding_boxes

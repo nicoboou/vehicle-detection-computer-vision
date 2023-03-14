@@ -238,6 +238,7 @@ class VehicleDetector:
                     window[1] : window[1] + window[3], window[0] : window[0] + window[2]
                 ],
                 (64, 64),
+                interpolation=cv2.INTER_AREA,
             )
             # Extract features from img window
             features = self.img_features_extractor(img_window)
@@ -340,12 +341,15 @@ class VehicleDetector:
         heatmap (np.array): thresholded heatmap
         """
 
-        if np.max(heatmap) >= 6:
-            thresh = 6
-        else:
-            thresh = np.max(heatmap) * threshold
+        print(f"np.max(heatmap) = {np.max(heatmap)}")
 
-        # thresh = np.max(heatmap) * threshold
+        # if np.max(heatmap) >= 4:
+        #     thresh = 4
+        # else:
+        #     thresh = np.max(heatmap) * threshold
+
+        thresh = np.max(heatmap) * threshold
+        print(f"Thresholding at: {thresh}")
 
         heatmap[heatmap <= thresh] = 0
 
@@ -382,6 +386,7 @@ class VehicleDetector:
                 (np.max(nonzerox), np.max(nonzeroy)),
             )
 
+            # Check if the bounding box is big enough
             if bbox[1][0] - bbox[0][0] > 20 and bbox[1][1] - bbox[0][1] > 20:
 
                 cv2.rectangle(img, bbox[0], bbox[1], (0, 0, 255), 6)

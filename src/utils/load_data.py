@@ -5,6 +5,7 @@ import glob
 import pandas as pd
 import numpy as np
 from skimage.io import imread
+import cv2
 
 
 def load_train_csv(path_to_csv, path_to_frames):
@@ -55,13 +56,14 @@ def load_train_csv(path_to_csv, path_to_frames):
     return df_ground_truth, no_bbox_counter
 
 
-def get_images(directory):
+def get_images(directory, data_aug=False):
     """
     Returns a list of images from a directory.
 
     Arguments:
     ----------
         dir (str): Path to the directory.
+        data_aug (bool): Whether to perform data augmentation or not.
 
     Returns:
     --------
@@ -71,7 +73,44 @@ def get_images(directory):
     images = []
 
     for filename in glob.glob(directory, recursive=True):
-        # images.append(cv2.cvtColor(cv2.imread(filename), cv2.COLOR_BGR2RGB))
-        images.append(imread(filename))
+        if data_aug:
+            # Perform Horizontal Flip
+            images.append(
+                cv2.flip(cv2.cvtColor(cv2.imread(filename), cv2.COLOR_BGR2RGB), 1)
+            )
+
+            # Perform Brightness Change randomly
+            value = np.random.randint(0, 20)
+            images.append(increase_brightness(cv2.imread(filename), value=value))
+
+            # Perform Center Cropping at 30% of margin and resize to 64x64
+            width = cv2.imread(filename).shape[1]
+            height = cv2.imread(filename).shape[0]
+            margin = 0.3
+            images.append(
+                cv2.resize(
+                    cv2.imread(filename)[
+                        int(height * margin) : int(height * (1 - margin)),
+                        int(width * margin) : int(width * (1 - margin)),
+                    ],
+                    (64, 64),
+                )
+            )
+
+        else:
+            images.append(cv2.cvtColor(cv2.imread(filename), cv2.COLOR_BGR2RGB))
 
     return images
+
+
+def increase_brightness(img, value=30):
+    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    h, s, v = cv2.split(hsv)
+
+    lim = 255 - value
+    v[v > lim] = 255
+    v[v <= lim] += value
+
+    final_hsv = cv2.merge((h, s, v))
+    img = cv2.cvtColor(final_hsv, cv2.COLOR_HSV2BGR)
+    return img

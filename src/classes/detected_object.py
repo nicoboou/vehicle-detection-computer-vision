@@ -19,7 +19,7 @@ class DetectedObject:
     frame_nb (int): the frame number in which the object was detected
     centroid (tuple): the centroid of the bounding box
     similar_objects (list): the list of similar objects detected in the previous frames
-    min_centroids_dist (int): minimum distance between two centroids to consider an object to be the same
+    min_centroids_dist (float): minimum distance between two centroids to consider an object to be the same as PERCENTAGE of the width of the bounding box
 
     Methods
     -------
@@ -57,7 +57,7 @@ class DetectedObject:
             detected_object.centroid[1] - self.centroid[1],
         )
 
-        if dist <= self.min_centroids_dist:
+        if dist <= self.bounding_box[2] * self.min_centroids_dist:
             return True
 
         return False
@@ -81,21 +81,21 @@ class DetectedObject:
         obj_width = same_object.bounding_box[2]
         obj_height = same_object.bounding_box[3]
 
-        max_width = max(current_width, obj_width)
-        max_height = max(current_height, obj_height)
+        new_width = max(current_width, obj_width)
+        new_height = max(current_height, obj_height)
 
-        # mean_width = (current_width + obj_width) / 2
-        # mean_height = (current_height + obj_height) / 2
+        # new_width = (current_width + obj_width) / 2
+        # new_height = (current_height + obj_height) / 2
 
-        half_width = int(max_width / 2)
-        half_height = int(max_height / 2)
+        half_width = int(new_width / 2)
+        half_height = int(new_height / 2)
 
         new_bounding_box = np.asarray(
             (
                 self.centroid[0] - half_width,
                 self.centroid[1] - half_height,
-                max_width,
-                max_height,
+                new_width,
+                new_height,
             )
         )
 
